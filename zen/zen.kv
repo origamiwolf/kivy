@@ -1,7 +1,7 @@
 #:kivy 1.9.1
 
 <Dot>:
-    size:5,5
+    size:20,20
     canvas:
         Color:
             rgba: 1,1,1,1  
@@ -12,9 +12,11 @@
 <Arena>:
     canvas:
         Color:
-            rgba: self.col
+            hsv: self.col
         Line:
-            circle: self.center[0], self.center[1], 100
+            circle: self.center[0], self.center[1], 65
+        Line:
+            circle: self.center[0], self.center[1], 66        
 
 <Zen>:
     dot: hg_dot

@@ -12,14 +12,23 @@ from functools import partial
 ## rest position of Y acceleration 3.0
 
 class Arena(Widget):
-    colR = NumericProperty(0)
-    colG = NumericProperty(0)
-    colB = NumericProperty(0)
-    colA = NumericProperty(0)
-    col = ReferenceListProperty(colR, colG, colB, colA)
+    om = NumericProperty(0)
+    colH = NumericProperty(0)
+    colS = NumericProperty(0)
+    colV = NumericProperty(0)
+    col = ReferenceListProperty(colH, colS, colV)
     
-    def update(self):
-        self.col = (1,1,0,1)
+    def updateOmUp(self):
+        self.om += 1
+        if (self.om > 10000):
+            self.om = 10000
+        self.col = (0.0001*self.om,1,1)
+
+    def updateOmDown(self):
+        self.om -= 100
+        if (self.om < 0):
+            self.om = 0
+        self.col = (0.0001*self.om,1,1)
 
 class Dot(Widget):
     velocity_x = NumericProperty(0)
@@ -70,28 +79,29 @@ class Zen(Widget):
 
     def putArena(self):
         self.arena.center = self.center
+        self.arena.om = 0
     
     def update(self, dt):
         self.dot.move()
         self.dot.drawTrail()
         if (Vector(self.dot.center).distance(self.arena.center) > 100):
-            self.arena.col = (1,0,0,1)
+            self.arena.updateOmDown()
         else:
-            self.arena.col = (0,1,0,1)
-        self.accelX = randint(-3,3)
-        self.accelY = randint(-3,3)
-##        val = accelerometer.acceleration[:3]
-##        self.accelX = -val[0]/100
-##        self.accelY = -(val[1]-3.0)/100
+            self.arena.updateOmUp()
+##        self.accelX = randint(-3,3)
+##        self.accelY = randint(-3,3)
+        val = accelerometer.acceleration[:3]
+        self.accelX = -val[0]/100
+        self.accelY = -(val[1]-3.0)/100
         self.dot.velocity_x += self.accelX
         self.dot.velocity_y += self.accelY
         
 class ZenApp(App):
     def build(self):
         hg = Zen()
-        hg.putDot()
         hg.putArena()
-##        accelerometer.enable()
+        hg.putDot()
+        accelerometer.enable()
         Clock.schedule_interval(hg.update, 1.0/60.0)
         return hg
 
