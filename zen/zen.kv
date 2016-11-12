@@ -1,27 +1,39 @@
 #:kivy 1.9.1
 
 <Dot>:
-    size:10,10
+    size:5,5
     canvas:
+        Color:
+            rgba: 1,1,1,1  
         Ellipse:
             pos: self.pos
             size: self.size
 
+<Arena>:
+    canvas:
+        Color:
+            rgba: self.col
+        Line:
+            circle: self.center[0], self.center[1], 100
+
 <Zen>:
     dot: hg_dot
+    arena: hg_arena
 
     Label:
         font_size: 12
         center_x: root.width/2
         top: root.top - 50
-        text: str(root.accelX)
 
     Label:
         font_size: 12
         center_x: root.width/2
         top: root.top - 100
-        text: str(root.accelY)
-        
+
     Dot:
         id: hg_dot
+        center: self.parent.center
+
+    Arena:
+        id: hg_arena
         center: self.parent.center
