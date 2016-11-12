@@ -1,0 +1,3 @@
+title=zen
+author=origamiwolf
+orientation=<portrait>

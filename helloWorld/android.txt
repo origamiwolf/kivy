@@ -1,0 +1,3 @@
+title=HelloWorld
+author=origamiwolf
+orientation=<portrait>

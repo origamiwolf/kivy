@@ -1,0 +1,15 @@
+#:kivy 1.9.1
+
+<Dot>:
+    size:10,10
+    canvas:
+        Ellipse:
+            pos: self.pos
+            size: self.size
+
+<MyHarmonograph>:
+    dot: hg_dot
+    
+    Dot:
+        id: hg_dot
+        center: self.parent.center

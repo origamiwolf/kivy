@@ -1,0 +1,3 @@
+title=myharmonograph
+author=origamiwolf
+orientation=<portrait>
