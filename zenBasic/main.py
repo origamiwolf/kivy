@@ -12,7 +12,6 @@ from functools import partial
 ## rest position of Y acceleration 3.0
 
 class Arena(Widget):
-    arenaR = NumericProperty(0)
     om = NumericProperty(0)
     colH = NumericProperty(0)
     colS = NumericProperty(0)
@@ -21,22 +20,17 @@ class Arena(Widget):
     
     def updateOmUp(self):
         self.om += 1
-        if (self.om > 2000):
-            self.om = 2000
-        self.col = (0.00018*self.om,1,1)
+        if (self.om > 10000):
+            self.om = 10000
+        self.col = (0.0001*self.om,1,1)
 
     def updateOmDown(self):
         self.om -= 100
         if (self.om < 0):
             self.om = 0
-        self.col = (0.00018*self.om,1,1)
+        self.col = (0.0001*self.om,1,1)
 
 class Dot(Widget):
-    om = NumericProperty(0)
-    colH = NumericProperty(0)
-    colS = NumericProperty(0)
-    colV = NumericProperty(0)
-    col = ReferenceListProperty(colH, colS, colV)    
     velocity_x = NumericProperty(0)
     velocity_y = NumericProperty(0)
     velocity = ReferenceListProperty(velocity_x, velocity_y)
@@ -72,35 +66,19 @@ class Dot(Widget):
             def removeTrail(trail, *largs):
                 self.canvas.remove(trail)
             Clock.schedule_once(partial(removeTrail, trailLine), 1)
-
-    def updateOmUp(self):
-        self.om += 1
-        if (self.om > 2000):
-            self.om = 2000
-        self.col = (0.00018*self.om,1,1)
-
-    def updateOmDown(self):
-        self.om -= 100
-        if (self.om < 0):
-            self.om = 0
-        self.col = (0.00018*self.om,1,1)
             
 class Zen(Widget):
     dot = ObjectProperty(None)
     arena = ObjectProperty(None)
     accelX = NumericProperty(None)
     accelY = NumericProperty(None)
-    diff = NumericProperty(None)
 
     def putDot(self):
-        self.dot.center[0] = self.width/2 + randint(-200,200)
-        self.dot.center[1] = self.height/2 + randint(-200,200)
+        self.dot.center = self.center
         self.dot.velocity = Vector(0, 0)
-        self.dot.om = 0
 
-    def putArena(self):      
+    def putArena(self):
         self.arena.center = self.center
-        self.arena.arenaR = 65
         self.arena.om = 0
     
     def update(self, dt):
@@ -108,10 +86,8 @@ class Zen(Widget):
         self.dot.drawTrail()
         if (Vector(self.dot.center).distance(self.arena.center) > 100):
             self.arena.updateOmDown()
-            self.dot.updateOmDown()
         else:
             self.arena.updateOmUp()
-            self.dot.updateOmUp()
 ##        self.accelX = randint(-3,3)
 ##        self.accelY = randint(-3,3)
         val = accelerometer.acceleration[:3]

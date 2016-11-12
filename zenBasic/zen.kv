@@ -4,7 +4,7 @@
     size:20,20
     canvas:
         Color:
-            hsv: self.col
+            rgba: 1,1,1,1  
         Ellipse:
             pos: self.pos
             size: self.size
@@ -14,11 +14,9 @@
         Color:
             hsv: self.col
         Line:
-            circle: self.center[0], self.center[1], self.arenaR
+            circle: self.center[0], self.center[1], 65
         Line:
-            circle: self.center[0], self.center[1], (self.arenaR+1)
-        Line:
-            circle: self.center[0], self.center[1], (self.arenaR+2)
+            circle: self.center[0], self.center[1], 66        
 
 <Zen>:
     dot: hg_dot
@@ -36,6 +34,7 @@
 
     Dot:
         id: hg_dot
+        center: self.parent.center
 
     Arena:
         id: hg_arena
